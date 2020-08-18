@@ -29,6 +29,8 @@ To read one of these json files into a Pandas DataFrame, use a query such as thi
 
 ## Database Schema - The schema consists of one fact table and four dimension tables.
 
+### Justification for database schema design
+
 ### Fact Table
 1. Songplays - records in log data associated with song plays i.e. records with page `NextSong`
 
@@ -51,3 +53,15 @@ artist_id, name, location, latitude, longitude
 
 start_time, hour, day, week, month, year, weekday
 
+## Project File Structure
+1. `data` folder - contains the song and log datasets
+2. `sql_queries.py` contains all sql queries, and is imported into `create_tables.py`, `etl.ipynb`, and `etl.py`
+3. `create_tables.py` drops and creates your tables. Run this file to reset your tables before each time you run your ETL scripts.
+4. `test.ipynb` displays the first few rows of each table to let you check your database
+5. `etl.ipynb` reads and processes a single file from `song_data` and `log_data` and loads the data into your tables. This notebook contains detailed instructions on the ETL process for each of the tables.
+6. `etl.py` reads and processes files from `song_data` and `log_data` and loads them into your tables. You can fill this out based on your work in the ETL notebook.
+7. `README.md` provides discussion on the project.
+
+## Steps to Follow
+
+## ETL Pipeline
