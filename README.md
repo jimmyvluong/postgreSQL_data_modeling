@@ -63,5 +63,41 @@ start_time, hour, day, week, month, year, weekday
 7. `README.md` provides discussion on the project.
 
 ## Steps to Follow
+### A. Creating Tables
+1. Write `DROP` and `CREATE` table statements in `sql_queries.py`.
+2. Ran `!python create_tables.py` in the console.
+3. Ran `create_tables.py` to create the database and tables.
+4. Ran `test.ipynb` to confirm the creation of tables with the correct columns. __Note: Make sure to click "Restart kernel" to close the connection to the database after running this notebook.__
 
-## ETL Pipeline
+### B. Build and Implement the ETL Pipeline
+1. Followed the instructions in `etl.ipynb` to develop the ETL process for each table before completing the `etl.py` file to load the whole datasets.
+2. Transferred these steps into `etl.py`.
+3. Ran `!python etl.py` in the console.
+4. Verify the data was inserted into the tables with `test.ipynb`.
+
+## ETL Pipeline Overview
+1. Connect to the Sparkify database.
+2. Process song data. Use the `get_files` function to get a list of all song JSON files in data/song_data.
+2a. Extract data for the `Songs` table and `Artists` table from the `song_data` file.
+3. Process log data. Use the `get_files` function to get a list of all song JSON files in data/log_data.
+3a. Extract data for the `time` table, `users` table, and `songplays` table from the `log` file.
+__Note: `time` table is in milliseconds. Since the log file does not specify an ID for either the song or the artist, you'll need to get the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.__
+4. Insert the extracted data using `etl.py`.
+4a. def process_song_file(cur, filepath): Extracts the song files.
+4b. def process_log_file(cur, filepath): Extracts the log files.
+4c. def process_data(cur, conn, filepath, func): Processes the data extracted from 4a. and 4b.
+4d. def main(): Calls the process_data function using process_song_file() and process_log_file().
+5. Close connection to the Sparkify database.
+
+## Challenges faced
+1. Conflicting values for user_ID and artist_ID when inserting data.
+Solution: Add `ON CONFLICT (artist_id) DO NOTHING`.
+For example:
+artist_table_insert = ("""
+`INSERT INTO artists (artist_id, name, location, latitude, longitude)
+    VALUES(%s, %s, %s, %s, %s)
+    ON CONFLICT (artist_id) DO NOTHING
+    ;
+""")`
+2. Convert the ts timestamp column to datetime
+Solution found here: https://datascience.stackexchange.com/questions/14645/convert-a-pandas-column-of-int-to-timestamp-datatype
