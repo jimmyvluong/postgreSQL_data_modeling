@@ -29,29 +29,54 @@ To read one of these json files into a Pandas DataFrame, use a query such as thi
 
 ## Database Schema - The schema consists of one fact table and four dimension tables.
 
-### Justification for database schema design
+This project uses a star schema, where one fact table `songplays` contains data on song play events. This fact table is referenced to 4 dimension tables.
+- Why use a star schema for this project?
+1. Complexity of data - the data is not complex or large
+2. Joins - necessary for the requested queries
+3. Structured data - data is in predictable JSON file format
 
 ### Fact Table
-1. Songplays - records in log data associated with song plays i.e. records with page `NextSong`
-
-songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
+1. __songplays__ - records in log data associated with song plays i.e. records with page `NextSong`
+- songplay_id SERIAL PRIMARY KEY: ID of each user's song play
+- start_time TIME: timestamp of start of user's activity
+- user_id VARCHAR NOT NULL: user ID
+- level VARCHAR: user level, FREE or PAID
+- song_id VARCHAR: song ID
+- artist_id VARCHAR: artist ID
+- session_id VARCHAR: session ID
+- location VARCHAR: user location
+- user_agent VARCHAR: agent used by user to access Sparkify
 
 ### Dimension Tables
-2. users - the users in the app
+2. __users__ - the users in the app
+- user_id PRIMARY KEY NOT NULL: user ID
+- first_name VARCHAR: user first name
+- last_name VARCHAR: user last name
+- gender VARCHAR: user last name
+- level VARCHAR: user level, FREE or PAID
 
-user_id, first_name, last_name, gender, level
+3. __songs__ - songs in music database
+- song_id VARCHAR PRIMARY KEY NOT NULL: song ID
+- title VARCHAR NOT NULL: song title
+- artist_id VARCHAR: artist ID
+- year INT: year of song release
+- duration float: duration of the song in seconds
 
-3. songs - songs in music database
+4. __artists__ - artists in music database
+- artist_id VARCHAR PRIMARY KEY NOT NULL: artist ID
+- name VARCHAR: artist name
+- location: artist location
+- latitude: location latitude
+- longitude: location longitude
 
-song_id, title, artist_id, year, duration
-
-4. artists - artists in music database
-
-artist_id, name, location, latitude, longitude
-
-5. time - timestamps of records in songplays broken down into specific units
-
-start_time, hour, day, week, month, year, weekday
+5. __time__ - timestamps of records in songplays broken down into specific units
+- start_time TIME PRIMARY KEY NOT NULL: start time
+- hour NUMERIC: hour
+- day NUMERIC: day
+- week NUMERIC: week
+- month VARCHAR: month
+- year INT: year
+- weekday INT: day of the week
 
 ## Project File Structure
 1. `data` folder - contains the song and log datasets
@@ -89,7 +114,7 @@ __Note: `time` table is in milliseconds. Since the log file does not specify an 
 4d. def main(): Calls the process_data function using process_song_file() and process_log_file().
 5. Close connection to the Sparkify database.
 
-## Challenges faced
+## Issues faced and solutions
 1. Conflicting values for user_ID and artist_ID when inserting data.
 Solution: Add `ON CONFLICT (artist_id) DO NOTHING`.
 For example:
