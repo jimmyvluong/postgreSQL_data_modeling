@@ -76,16 +76,20 @@ INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_i
     VALUES(to_timestamp(%s), %s, %s, %s, %s, %s, %s, %s);
 """)
 
+# From code review: A user will be present even if he/she is a free tier user. 
+# But what if the free tier user converts into a paid user. In that case we have to modify the level of the user as below:
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
     VALUES(%s, %s, %s, %s, %s)
-    ON CONFLICT (user_ID) DO NOTHING
+    ON CONFLICT (user_ID) DO UPDATE SET level = excluded.level    
     ;
 """)
 
 song_table_insert = ("""
 INSERT INTO songs (song_id, title, artist_id, year, duration)
-    VALUES(%s, %s, %s, %s, %s);
+    VALUES(%s, %s, %s, %s, %s)
+    ON CONFLICT (song_id) DO NOTHING
+    ;
 """)
 
 artist_table_insert = ("""
@@ -98,8 +102,8 @@ INSERT INTO artists (artist_id, name, location, latitude, longitude)
 time_table_insert = ("""
 INSERT INTO time (start_time, hour, day, week, month, year, weekday)
     VALUES(%s, %s, %s, %s, %s, %s, %s)
-    ON CONFLICT (start_time)
-    DO NOTHING;
+    ON CONFLICT (start_time) DO NOTHING
+    ;
 """)
 
 # FIND SONGS
