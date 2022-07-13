@@ -14,7 +14,18 @@ The files are partitioned by the first three letters of each song's track ID. Fo
 
 Below is an example of a single song file:
 
-`{"num_songs": 1, "artist_id": "ARJIE2Y1187B994AB7", "artist_latitude": null, "artist_longitude": null, "artist_location": "", "artist_name": "Line Renaud", "song_id": "SOUPIRU12A6D4FA1E1", "title": "Der Kleine Dompfaff", "duration": 152.92036, "year": 0}`
+```JSON
+{"num_songs": 1, "
+artist_id": "ARJIE2Y1187B994AB7", 
+"artist_latitude": null, 
+"artist_longitude": null, 
+"artist_location": "", 
+"artist_name": "Line Renaud", 
+"song_id": "SOUPIRU12A6D4FA1E1", 
+"title": "Der Kleine Dompfaff", 
+"duration": 152.92036, 
+"year": 0}
+```
 
 2. **Log Dataset** - This data is based on simulated activity logs from a music streaming app based on specified configurations.
 
