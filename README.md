@@ -15,8 +15,8 @@ The files are partitioned by the first three letters of each song's track ID. Fo
 Below is an example of a single song file:
 
 ```JSON
-{"num_songs": 1, "
-artist_id": "ARJIE2Y1187B994AB7", 
+{"num_songs": 1, 
+"artist_id" : "ARJIE2Y1187B994AB7", 
 "artist_latitude": null, 
 "artist_longitude": null, 
 "artist_location": "", 
